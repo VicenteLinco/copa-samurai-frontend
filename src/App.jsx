@@ -313,45 +313,45 @@ function App() {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-red-900 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md border-4 border-red-600">
           <div className="text-center mb-8">
             <div className="text-6xl mb-4">🥋</div>
-            <h1 className="text-3xl font-bold text-gray-800">Copa Samurai 2025</h1>
-            <p className="text-gray-600 mt-2">Sistema de Gestión</p>
+            <h1 className="text-3xl font-bold text-black">Copa Samurai 2025</h1>
+            <p className="text-gray-700 mt-2 font-semibold">Sistema de Gestión</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-red-600 mb-2">Usuario</label>
+              <label className="block text-sm font-bold text-red-600 mb-2">Usuario</label>
               <input
                 type="text"
                 name="usuario"
                 required
-                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-semibold text-red-600 mb-2">Contraseña</label>
+              <label className="block text-sm font-bold text-red-600 mb-2">Contraseña</label>
               <input
                 type="password"
                 name="password"
                 required
-                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition"
               />
             </div>
             
             <button
               type="submit"
-              className="w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition"
+              className="w-full bg-gradient-to-r from-red-600 to-black text-white py-3 rounded-lg font-bold hover:from-red-700 hover:to-gray-900 transition shadow-lg"
             >
               Iniciar Sesión
             </button>
           </form>
           
-          <p className="text-center text-xs text-gray-400 mt-6">
-            Diseñado por Vicente Lincoqueo Roa
+          <p className="text-center text-xs text-gray-500 mt-6">
+            Diseñado por <a href="https://wa.link/qk9a9e" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-800 font-semibold hover:underline">Vicente Lincoqueo Roa</a>
           </p>
         </div>
       </div>
@@ -360,26 +360,26 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-black via-gray-900 to-red-900 text-white shadow-2xl border-b-4 border-red-600">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="text-4xl">🥋</div>
             <div>
               <h1 className="text-2xl font-bold">Copa Samurai 2025</h1>
-              <p className="text-sm text-red-100">{user?.nombre} ({user?.rol})</p>
+              <p className="text-sm text-gray-300">{user?.nombre} ({user?.rol})</p>
             </div>
           </div>
           
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowPasswordModal(true)}
-              className="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-lg transition"
+              className="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-lg transition border-2 border-red-500"
             >
               Cambiar Contraseña
             </button>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 bg-red-700 hover:bg-red-800 px-4 py-2 rounded-lg transition"
+              className="flex items-center gap-2 bg-gray-800 hover:bg-black px-4 py-2 rounded-lg transition border-2 border-gray-700"
             >
               <LogOut className="w-5 h-5" />
               Cerrar Sesión
@@ -393,20 +393,20 @@ function App() {
               <>
                 <button
                   onClick={() => { setActiveTab('dojos'); setShowModal(false); }}
-                  className={`px-8 py-3 font-bold rounded-lg transition shadow-lg ${
+                  className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 ${
                     activeTab === 'dojos'
-                      ? 'bg-white text-red-600 scale-105'
-                      : 'bg-red-700 text-white hover:bg-red-800 hover:scale-105'
+                      ? 'bg-white text-black border-red-600 scale-105'
+                      : 'bg-gray-800 text-white border-gray-700 hover:bg-black hover:border-red-600 hover:scale-105'
                   }`}
                 >
                   🏯 Dojos
                 </button>
                 <button
                   onClick={() => { setActiveTab('senseis'); setShowModal(false); }}
-                  className={`px-8 py-3 font-bold rounded-lg transition shadow-lg ${
+                  className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 ${
                     activeTab === 'senseis'
-                      ? 'bg-white text-red-600 scale-105'
-                      : 'bg-red-700 text-white hover:bg-red-800 hover:scale-105'
+                      ? 'bg-white text-black border-red-600 scale-105'
+                      : 'bg-gray-800 text-white border-gray-700 hover:bg-black hover:border-red-600 hover:scale-105'
                   }`}
                 >
                   👤 Senseis
@@ -415,10 +415,10 @@ function App() {
             )}
             <button
               onClick={() => { setActiveTab('participantes'); setShowModal(false); }}
-              className={`px-8 py-3 font-bold rounded-lg transition shadow-lg ${
+              className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 ${
                 activeTab === 'participantes'
-                  ? 'bg-white text-red-600 scale-105'
-                  : 'bg-red-700 text-white hover:bg-red-800 hover:scale-105'
+                  ? 'bg-white text-black border-red-600 scale-105'
+                  : 'bg-gray-800 text-white border-gray-700 hover:bg-black hover:border-red-600 hover:scale-105'
               }`}
             >
               👥 Participantes
@@ -431,10 +431,10 @@ function App() {
         {activeTab === 'dojos' && user?.rol === 'admin' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Gestión de Dojos</h2>
+              <h2 className="text-2xl font-bold text-black">Gestión de Dojos</h2>
               <button
                 onClick={() => openModal('dojo')}
-                className="bg-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition flex items-center gap-2"
+                className="bg-gradient-to-r from-red-700 to-black text-white px-6 py-3 rounded-lg font-bold hover:from-red-800 hover:to-gray-900 transition flex items-center gap-2 border-2 border-red-900 shadow-lg"
               >
                 <Plus className="w-5 h-5" />
                 Nuevo Dojo
@@ -443,11 +443,11 @@ function App() {
             
             <div className="bg-white rounded-lg shadow overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-red-100">
+                <thead className="bg-gradient-to-r from-red-700 to-black text-white">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Nombre</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Ubicación</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Acciones</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Nombre</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Ubicación</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -480,10 +480,10 @@ function App() {
         {activeTab === 'senseis' && user?.rol === 'admin' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Gestión de Senseis</h2>
+              <h2 className="text-2xl font-bold text-black">Gestión de Senseis</h2>
               <button
                 onClick={() => openModal('sensei')}
-                className="bg-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition flex items-center gap-2"
+                className="bg-gradient-to-r from-red-700 to-black text-white px-6 py-3 rounded-lg font-bold hover:from-red-800 hover:to-gray-900 transition flex items-center gap-2 border-2 border-red-900 shadow-lg"
               >
                 <Plus className="w-5 h-5" />
                 Nuevo Sensei
@@ -492,12 +492,12 @@ function App() {
             
             <div className="bg-white rounded-lg shadow overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-red-100">
+                <thead className="bg-gradient-to-r from-red-700 to-black text-white">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Nombre</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Usuario</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Dojo</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Acciones</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Nombre</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Usuario</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Dojo</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -530,39 +530,44 @@ function App() {
 
         {activeTab === 'participantes' && (
           <div>
-            <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">
+            <div className="mb-6">
+              <h2 className="text-3xl font-bold text-black mb-4 text-center">
                 Participantes {searchTerm || selectedDojo ? `(${participantes.length})` : ''}
               </h2>
               
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={exportCSV}
-                  className="bg-green-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-700 transition flex items-center gap-2"
-                >
-                  <FileDown className="w-5 h-5" />
-                  CSV
-                </button>
-                <button
-                  onClick={exportPDF}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition flex items-center gap-2"
-                >
-                  <Printer className="w-5 h-5" />
-                  PDF
-                </button>
+              <div className="flex justify-between items-center">
+                <div className="flex gap-2">
+                  <button
+                    onClick={exportCSV}
+                    className="bg-black text-white px-5 py-2 rounded-lg font-semibold hover:bg-gray-800 transition flex items-center gap-2 border-2 border-gray-700"
+                  >
+                    <FileDown className="w-5 h-5" />
+                    CSV
+                  </button>
+                  <button
+                    onClick={exportPDF}
+                    className="bg-black text-white px-5 py-2 rounded-lg font-semibold hover:bg-gray-800 transition flex items-center gap-2 border-2 border-gray-700"
+                  >
+                    <Printer className="w-5 h-5" />
+                    PDF
+                  </button>
+                </div>
+                
                 <button
                   onClick={() => openModal('participante')}
-                  className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-6 py-3 rounded-lg font-bold hover:from-red-700 hover:to-orange-700 transition-all transform hover:scale-105 shadow-lg flex items-center gap-2 text-lg"
+                  className="bg-gradient-to-r from-red-700 via-red-600 to-black text-white px-10 py-4 rounded-xl font-bold text-xl hover:from-red-800 hover:via-red-700 hover:to-gray-900 transition-all transform hover:scale-110 shadow-2xl flex items-center gap-3 border-4 border-red-900"
                 >
-                  <Plus className="w-6 h-6" />
-                  Registrar Nuevo Participante
+                  <Plus className="w-7 h-7" />
+                  ⚔️ REGISTRAR NUEVO PARTICIPANTE ⚔️
                 </button>
+                
+                <div className="w-32"></div>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow p-4 mb-6 flex flex-wrap gap-4">
+            <div className="bg-white rounded-lg shadow-lg p-4 mb-6 flex flex-wrap gap-4 border-2 border-gray-300">
               <div className="flex-1 min-w-[200px]">
-                <label className="block text-sm font-semibold text-red-600 mb-2">
+                <label className="block text-sm font-bold text-black mb-2">
                   <Search className="w-4 h-4 inline mr-1" />
                   Buscar por nombre
                 </label>
@@ -577,7 +582,7 @@ function App() {
               
               {user?.rol === 'admin' && (
                 <div className="flex-1 min-w-[200px]">
-                  <label className="block text-sm font-semibold text-red-600 mb-2">
+                  <label className="block text-sm font-bold text-black mb-2">
                     <Filter className="w-4 h-4 inline mr-1" />
                     Filtrar por dojo
                   </label>
@@ -595,20 +600,20 @@ function App() {
               )}
             </div>
             
-            <div className="bg-white rounded-lg shadow overflow-x-auto">
+            <div className="bg-white rounded-lg shadow-xl overflow-x-auto border-2 border-gray-300">
               <table className="w-full">
-                <thead className="bg-red-100">
+                <thead className="bg-gradient-to-r from-red-700 to-black text-white">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Nombre</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Edad</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Género</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Grado</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Dojo</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Nombre</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Edad</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Género</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Grado</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Dojo</th>
                     {user?.rol === 'sensei' && (
-                      <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Creado por</th>
+                      <th className="px-6 py-3 text-left text-sm font-bold">Creado por</th>
                     )}
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Modalidades</th>
-                    <th className="px-6 py-3 text-left text-sm font-bold text-red-600">Acciones</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Modalidades</th>
+                    <th className="px-6 py-3 text-left text-sm font-bold">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -621,10 +626,10 @@ function App() {
                       <td className="px-6 py-4">{p.dojoId?.nombre}</td>
                       {user?.rol === 'sensei' && (
                         <td className="px-6 py-4">
-                          <span className={`text-xs px-2 py-1 rounded ${
+                          <span className={`text-xs px-2 py-1 rounded font-semibold ${
                             p.creadoPor?._id === user.id 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-gray-100 text-gray-800'
+                              ? 'bg-red-100 text-red-800 border border-red-300' 
+                              : 'bg-black text-white border border-gray-700'
                           }`}>
                             {p.creadoPor?.nombre || 'Admin'}
                           </span>
@@ -684,7 +689,7 @@ function App() {
               {modalType === 'dojo' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-red-600 mb-2">Nombre *</label>
+                    <label className="block text-sm font-bold text-black mb-2">Nombre *</label>
                     <input
                       type="text"
                       required
@@ -936,7 +941,7 @@ function App() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition"
+                  className="flex-1 bg-gradient-to-r from-red-700 to-black text-white py-3 rounded-lg font-bold hover:from-red-800 hover:to-gray-900 transition border-2 border-red-900"
                 >
                   {editingItem ? 'Actualizar' : 'Crear'}
                 </button>
@@ -1005,7 +1010,7 @@ function App() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition"
+                  className="flex-1 bg-gradient-to-r from-red-700 to-black text-white py-3 rounded-lg font-bold hover:from-red-800 hover:to-gray-900 transition border-2 border-red-900"
                 >
                   Actualizar
                 </button>
