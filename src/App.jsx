@@ -313,45 +313,46 @@ function App() {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-red-900 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md border-4 border-red-600">
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md border-4 border-black">
           <div className="text-center mb-8">
             <div className="text-6xl mb-4">🥋</div>
-            <h1 className="text-3xl font-bold text-black">Copa Samurai 2025</h1>
-            <p className="text-gray-700 mt-2 font-semibold">Sistema de Gestión</p>
+            <h1 className="text-4xl font-bold text-black mb-2">Copa Samurai 2025</h1>
+            <div className="w-32 h-1 bg-red-600 mx-auto mb-3"></div>
+            <p className="text-gray-700 font-semibold">Sistema de Gestión</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-sm font-bold text-red-600 mb-2">Usuario</label>
+              <label className="block text-sm font-bold text-black mb-2">Usuario</label>
               <input
                 type="text"
                 name="usuario"
                 required
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition"
+                className="w-full px-4 py-3 border-2 border-black rounded-lg focus:border-red-600 focus:ring-4 focus:ring-red-200 outline-none transition"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-bold text-red-600 mb-2">Contraseña</label>
+              <label className="block text-sm font-bold text-black mb-2">Contraseña</label>
               <input
                 type="password"
                 name="password"
                 required
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition"
+                className="w-full px-4 py-3 border-2 border-black rounded-lg focus:border-red-600 focus:ring-4 focus:ring-red-200 outline-none transition"
               />
             </div>
             
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-red-600 to-black text-white py-3 rounded-lg font-bold hover:from-red-700 hover:to-gray-900 transition shadow-lg"
+              className="w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition shadow-lg border-2 border-black"
             >
               Iniciar Sesión
             </button>
           </form>
           
           <p className="text-center text-xs text-gray-500 mt-6">
-            Diseñado por <a href="wa.link/pg6sr1" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-800 font-semibold hover:underline">Vicente Lincoqueo Roa</a>
+            Diseñado por <a href="https://wa.link/pg6sr1" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-800 font-semibold hover:underline">Vicente Lincoqueo Roa</a>
           </p>
         </div>
       </div>
@@ -360,26 +361,26 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-black via-gray-900 to-red-900 text-white shadow-2xl border-b-4 border-red-600">
+      <div className="bg-white text-black shadow-xl border-b-4 border-black">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="text-4xl">🥋</div>
             <div>
-              <h1 className="text-2xl font-bold">Copa Samurai 2025</h1>
-              <p className="text-sm text-gray-300">{user?.nombre} ({user?.rol})</p>
+              <h1 className="text-2xl font-bold text-black">Copa Samurai 2025</h1>
+              <p className="text-sm text-red-600 font-semibold">{user?.nombre} ({user?.rol})</p>
             </div>
           </div>
           
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowPasswordModal(true)}
-              className="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-lg transition border-2 border-red-500"
+              className="bg-white text-black px-4 py-2 rounded-lg transition border-2 border-black hover:bg-red-600 hover:text-white font-semibold"
             >
               Cambiar Contraseña
             </button>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 bg-gray-800 hover:bg-black px-4 py-2 rounded-lg transition border-2 border-gray-700"
+              className="flex items-center gap-2 bg-red-600 text-white hover:bg-red-700 px-4 py-2 rounded-lg transition border-2 border-black font-semibold"
             >
               <LogOut className="w-5 h-5" />
               Cerrar Sesión
@@ -393,20 +394,20 @@ function App() {
               <>
                 <button
                   onClick={() => { setActiveTab('dojos'); setShowModal(false); }}
-                  className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 ${
+                  className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 border-black ${
                     activeTab === 'dojos'
-                      ? 'bg-white text-black border-red-600 scale-105'
-                      : 'bg-gray-800 text-white border-gray-700 hover:bg-black hover:border-red-600 hover:scale-105'
+                      ? 'bg-red-600 text-white scale-105'
+                      : 'bg-white text-black hover:bg-red-600 hover:text-white hover:scale-105'
                   }`}
                 >
                   🏯 Dojos
                 </button>
                 <button
                   onClick={() => { setActiveTab('senseis'); setShowModal(false); }}
-                  className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 ${
+                  className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 border-black ${
                     activeTab === 'senseis'
-                      ? 'bg-white text-black border-red-600 scale-105'
-                      : 'bg-gray-800 text-white border-gray-700 hover:bg-black hover:border-red-600 hover:scale-105'
+                      ? 'bg-red-600 text-white scale-105'
+                      : 'bg-white text-black hover:bg-red-600 hover:text-white hover:scale-105'
                   }`}
                 >
                   👤 Senseis
@@ -415,10 +416,10 @@ function App() {
             )}
             <button
               onClick={() => { setActiveTab('participantes'); setShowModal(false); }}
-              className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 ${
+              className={`px-8 py-3 font-bold rounded-lg transition shadow-lg border-2 border-black ${
                 activeTab === 'participantes'
-                  ? 'bg-white text-black border-red-600 scale-105'
-                  : 'bg-gray-800 text-white border-gray-700 hover:bg-black hover:border-red-600 hover:scale-105'
+                  ? 'bg-red-600 text-white scale-105'
+                  : 'bg-white text-black hover:bg-red-600 hover:text-white hover:scale-105'
               }`}
             >
               👥 Participantes
@@ -434,16 +435,16 @@ function App() {
               <h2 className="text-2xl font-bold text-black">Gestión de Dojos</h2>
               <button
                 onClick={() => openModal('dojo')}
-                className="bg-gradient-to-r from-red-700 to-black text-white px-6 py-3 rounded-lg font-bold hover:from-red-800 hover:to-gray-900 transition flex items-center gap-2 border-2 border-red-900 shadow-lg"
+                className="bg-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition flex items-center gap-2 border-2 border-black shadow-lg"
               >
                 <Plus className="w-5 h-5" />
                 Nuevo Dojo
               </button>
             </div>
             
-            <div className="bg-white rounded-lg shadow overflow-x-auto">
+            <div className="bg-white rounded-lg shadow-xl overflow-x-auto border-2 border-black">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-red-700 to-black text-white">
+                <thead className="bg-red-600 text-white border-b-4 border-black">
                   <tr>
                     <th className="px-6 py-3 text-left text-sm font-bold">Nombre</th>
                     <th className="px-6 py-3 text-left text-sm font-bold">Ubicación</th>
@@ -483,16 +484,16 @@ function App() {
               <h2 className="text-2xl font-bold text-black">Gestión de Senseis</h2>
               <button
                 onClick={() => openModal('sensei')}
-                className="bg-gradient-to-r from-red-700 to-black text-white px-6 py-3 rounded-lg font-bold hover:from-red-800 hover:to-gray-900 transition flex items-center gap-2 border-2 border-red-900 shadow-lg"
+                className="bg-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-700 transition flex items-center gap-2 border-2 border-black shadow-lg"
               >
                 <Plus className="w-5 h-5" />
                 Nuevo Sensei
               </button>
             </div>
             
-            <div className="bg-white rounded-lg shadow overflow-x-auto">
+            <div className="bg-white rounded-lg shadow-xl overflow-x-auto border-2 border-black">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-red-700 to-black text-white">
+                <thead className="bg-red-600 text-white border-b-4 border-black">
                   <tr>
                     <th className="px-6 py-3 text-left text-sm font-bold">Nombre</th>
                     <th className="px-6 py-3 text-left text-sm font-bold">Usuario</th>
@@ -539,14 +540,14 @@ function App() {
                 <div className="flex gap-2">
                   <button
                     onClick={exportCSV}
-                    className="bg-black text-white px-5 py-2 rounded-lg font-semibold hover:bg-gray-800 transition flex items-center gap-2 border-2 border-gray-700"
+                    className="bg-white text-black px-5 py-2 rounded-lg font-semibold hover:bg-red-600 hover:text-white transition flex items-center gap-2 border-2 border-black"
                   >
                     <FileDown className="w-5 h-5" />
                     CSV
                   </button>
                   <button
                     onClick={exportPDF}
-                    className="bg-black text-white px-5 py-2 rounded-lg font-semibold hover:bg-gray-800 transition flex items-center gap-2 border-2 border-gray-700"
+                    className="bg-white text-black px-5 py-2 rounded-lg font-semibold hover:bg-red-600 hover:text-white transition flex items-center gap-2 border-2 border-black"
                   >
                     <Printer className="w-5 h-5" />
                     PDF
@@ -555,17 +556,17 @@ function App() {
                 
                 <button
                   onClick={() => openModal('participante')}
-                  className="bg-gradient-to-r from-red-700 via-red-600 to-black text-white px-10 py-4 rounded-xl font-bold text-xl hover:from-red-800 hover:via-red-700 hover:to-gray-900 transition-all transform hover:scale-110 shadow-2xl flex items-center gap-3 border-4 border-red-900"
+                  className="bg-red-600 text-white px-12 py-5 rounded-xl font-bold text-2xl hover:bg-red-700 transition-all transform hover:scale-110 shadow-2xl flex items-center gap-3 border-4 border-black"
                 >
-                  <Plus className="w-7 h-7" />
-                  ⚔️ REGISTRAR NUEVO PARTICIPANTE ⚔️
+                  <Plus className="w-8 h-8" />
+                  ⚔️ REGISTRAR NUEVO PARTICIPANTE
                 </button>
                 
                 <div className="w-32"></div>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-lg p-4 mb-6 flex flex-wrap gap-4 border-2 border-gray-300">
+            <div className="bg-white rounded-lg shadow-lg p-4 mb-6 flex flex-wrap gap-4 border-4 border-black">
               <div className="flex-1 min-w-[200px]">
                 <label className="block text-sm font-bold text-black mb-2">
                   <Search className="w-4 h-4 inline mr-1" />
@@ -576,7 +577,7 @@ function App() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Escribe para buscar..."
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none"
+                  className="w-full px-4 py-2 border-2 border-black rounded-lg focus:border-red-600 focus:ring-4 focus:ring-red-200 outline-none"
                 />
               </div>
               
@@ -589,7 +590,7 @@ function App() {
                   <select
                     value={selectedDojo}
                     onChange={(e) => setSelectedDojo(e.target.value)}
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none"
+                    className="w-full px-4 py-2 border-2 border-black rounded-lg focus:border-red-600 focus:ring-4 focus:ring-red-200 outline-none"
                   >
                     <option value="">Todos los dojos</option>
                     {dojos.map(dojo => (
@@ -600,9 +601,9 @@ function App() {
               )}
             </div>
             
-            <div className="bg-white rounded-lg shadow-xl overflow-x-auto border-2 border-gray-300">
+            <div className="bg-white rounded-lg shadow-xl overflow-x-auto border-4 border-black">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-red-700 to-black text-white">
+                <thead className="bg-red-600 text-white border-b-4 border-black">
                   <tr>
                     <th className="px-6 py-3 text-left text-sm font-bold">Nombre</th>
                     <th className="px-6 py-3 text-left text-sm font-bold">Edad</th>
@@ -626,10 +627,10 @@ function App() {
                       <td className="px-6 py-4">{p.dojoId?.nombre}</td>
                       {user?.rol === 'sensei' && (
                         <td className="px-6 py-4">
-                          <span className={`text-xs px-2 py-1 rounded font-semibold ${
+                          <span className={`text-xs px-3 py-1 rounded-full font-bold border-2 ${
                             p.creadoPor?._id === user.id 
-                              ? 'bg-red-100 text-red-800 border border-red-300' 
-                              : 'bg-black text-white border border-gray-700'
+                              ? 'bg-red-600 text-white border-black' 
+                              : 'bg-white text-black border-black'
                           }`}>
                             {p.creadoPor?.nombre || 'Admin'}
                           </span>
@@ -695,7 +696,7 @@ function App() {
                       required
                       value={formData.nombre || ''}
                       onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-                      className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none"
+                      className="w-full px-4 py-2 border-2 border-black rounded-lg focus:border-red-600 focus:ring-4 focus:ring-red-200 outline-none"
                     />
                   </div>
                   <div>
@@ -941,7 +942,7 @@ function App() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-red-700 to-black text-white py-3 rounded-lg font-bold hover:from-red-800 hover:to-gray-900 transition border-2 border-red-900"
+                  className="flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition border-2 border-black"
                 >
                   {editingItem ? 'Actualizar' : 'Crear'}
                 </button>
@@ -1010,7 +1011,7 @@ function App() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-red-700 to-black text-white py-3 rounded-lg font-bold hover:from-red-800 hover:to-gray-900 transition border-2 border-red-900"
+                  className="flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition border-2 border-black"
                 >
                   Actualizar
                 </button>
