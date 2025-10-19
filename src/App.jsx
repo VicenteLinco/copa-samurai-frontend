@@ -351,7 +351,7 @@ function App() {
           </form>
           
           <p className="text-center text-xs text-gray-500 mt-6">
-            Diseñado por <a href="https://wa.link/qk9a9e" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-800 font-semibold hover:underline">Vicente Lincoqueo Roa</a>
+            Diseñado por <a href="wa.link/pg6sr1" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-800 font-semibold hover:underline">Vicente Lincoqueo Roa</a>
           </p>
         </div>
       </div>
