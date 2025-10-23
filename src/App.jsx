@@ -28,6 +28,7 @@ function App() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [showNames, setShowNames] = useState(false);
+  const [showEquipos, setShowEquipos] = useState(false);
   const [participantesDisponibles, setParticipantesDisponibles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showAgregarParticipantesModal, setShowAgregarParticipantesModal] = useState(false);
@@ -601,6 +602,115 @@ function App() {
     printWindow.print();
   };
 
+  const exportEquiposCSV = () => {
+    const headers = ['Nombre Equipo', 'Categoría', 'Dojo', 'N° Equipo', 'Estado', 'Cantidad Miembros', 'Integrante 1', 'Integrante 2', 'Integrante 3'];
+    const rows = equipos.map(e => [
+      e.nombre,
+      e.categoriaId?.nombre || '',
+      e.dojoId?.nombre || '',
+      e.numeroEquipo,
+      e.estado === 'activo' ? 'Activo' : 'Borrador',
+      e.miembros?.length || 0,
+      e.miembros?.[0]?.nombre || '',
+      e.miembros?.[1]?.nombre || '',
+      e.miembros?.[2]?.nombre || ''
+    ]);
+
+    const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `equipos_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+  };
+
+  const exportEquiposPDF = () => {
+    const printWindow = window.open('', '', 'width=800,height=600');
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Copa Samurai 2025 - Equipos</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { text-align: center; color: #DC2626; }
+            h2 { text-align: center; color: #666; font-size: 18px; }
+            .info { text-align: center; margin: 10px 0; color: #999; }
+            .equipo {
+              border: 2px solid #DC2626;
+              margin: 20px 0;
+              padding: 15px;
+              border-radius: 8px;
+              page-break-inside: avoid;
+            }
+            .equipo-header {
+              background: #FEE2E2;
+              padding: 10px;
+              margin: -15px -15px 10px -15px;
+              border-radius: 6px 6px 0 0;
+            }
+            .equipo-title {
+              font-size: 18px;
+              font-weight: bold;
+              color: #DC2626;
+            }
+            .equipo-info {
+              font-size: 14px;
+              color: #666;
+              margin-top: 5px;
+            }
+            .miembros {
+              margin-top: 10px;
+            }
+            .miembro {
+              background: #f9f9f9;
+              padding: 8px;
+              margin: 5px 0;
+              border-left: 3px solid #DC2626;
+            }
+            .total {
+              text-align: center;
+              margin-top: 20px;
+              font-weight: bold;
+              font-size: 16px;
+            }
+          </style>
+        </head>
+        <body>
+          <h1>⚔️ COPA SAMURAI 2025 ⚔️</h1>
+          <h2>Lista Oficial de Equipos</h2>
+          <div class="info">Generado: ${new Date().toLocaleString('es-ES')}</div>
+          ${equipos.map(e => `
+            <div class="equipo">
+              <div class="equipo-header">
+                <div class="equipo-title">${e.nombre} - Equipo #${e.numeroEquipo}</div>
+                <div class="equipo-info">
+                  ${e.categoriaId?.nombre || 'Sin categoría'} • ${e.dojoId?.nombre || 'Sin dojo'} •
+                  ${e.estado === 'activo' ? '✓ Activo' : '📝 Borrador'}
+                </div>
+              </div>
+              <div class="miembros">
+                <strong>Integrantes (${e.miembros?.length || 0}):</strong>
+                ${e.miembros && e.miembros.length > 0
+                  ? e.miembros.map(m => `
+                    <div class="miembro">
+                      ${m.nombre} - ${m.edad} años - ${m.genero} - ${m.grado}
+                    </div>
+                  `).join('')
+                  : '<div style="color: #999; font-style: italic;">Sin miembros asignados</div>'
+                }
+              </div>
+            </div>
+          `).join('')}
+          <div class="total">Total de equipos: ${equipos.length}</div>
+        </body>
+      </html>
+    `;
+    printWindow.document.write(html);
+    printWindow.document.close();
+    printWindow.print();
+  };
+
   if (!token) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-4">
@@ -1036,8 +1146,8 @@ function App() {
               📊 Estadísticas por Modalidad
             </h2>
 
-            {/* Checkbox para mostrar nombres */}
-            <div className="bg-white rounded-lg shadow-lg p-4 mb-6 border-4 border-black">
+            {/* Checkboxes para mostrar detalles */}
+            <div className="bg-white rounded-lg shadow-lg p-4 mb-6 border-4 border-black space-y-3">
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -1046,7 +1156,19 @@ function App() {
                   className="w-5 h-5 text-red-600 rounded border-2 border-black focus:ring-4 focus:ring-red-200"
                 />
                 <span className="text-sm md:text-base font-bold text-black">
-                  Mostrar nombres de participantes
+                  👤 Mostrar nombres de participantes
+                </span>
+              </label>
+
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showEquipos}
+                  onChange={(e) => setShowEquipos(e.target.checked)}
+                  className="w-5 h-5 text-red-600 rounded border-2 border-black focus:ring-4 focus:ring-red-200"
+                />
+                <span className="text-sm md:text-base font-bold text-black">
+                  👥 Mostrar listado de equipos y sus participantes
                 </span>
               </label>
             </div>
@@ -1144,37 +1266,69 @@ function App() {
             {/* Resumen */}
             <div className="mt-6 bg-red-600 text-white rounded-lg shadow-xl p-4 md:p-6 border-4 border-black">
               <h3 className="text-lg md:text-xl font-bold mb-3">📈 Resumen General</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white text-black rounded-lg p-4 border-2 border-black">
-                  <div className="text-xs md:text-sm font-semibold text-gray-600">Total Participantes Únicos</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-600">👤 Total Participantes Únicos</div>
                   <div className="text-2xl md:text-3xl font-bold text-red-600">{participantes.length}</div>
                 </div>
                 <div className="bg-white text-black rounded-lg p-4 border-2 border-black">
-                  <div className="text-xs md:text-sm font-semibold text-gray-600">Total Inscripciones</div>
-                  <div className="text-2xl md:text-3xl font-bold text-red-600">
-                    {(() => {
-                      const stats = getEstadisticas();
-                      return stats.kataIndividual.count + stats.kataEquipos.count + 
-                             stats.kumiteIndividual.count + stats.kumiteEquipos.count + 
-                             stats.kihonIppon.count;
-                    })()}
-                  </div>
-                </div>
-                <div className="bg-white text-black rounded-lg p-4 border-2 border-black">
-                  <div className="text-xs md:text-sm font-semibold text-gray-600">Promedio Modalidades/Persona</div>
-                  <div className="text-2xl md:text-3xl font-bold text-red-600">
-                    {(() => {
-                      if (participantes.length === 0) return '0';
-                      const stats = getEstadisticas();
-                      const total = stats.kataIndividual.count + stats.kataEquipos.count + 
-                                   stats.kumiteIndividual.count + stats.kumiteEquipos.count + 
-                                   stats.kihonIppon.count;
-                      return (total / participantes.length).toFixed(1);
-                    })()}
-                  </div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-600">👥 Total Equipos Inscritos</div>
+                  <div className="text-2xl md:text-3xl font-bold text-red-600">{equipos.length}</div>
                 </div>
               </div>
             </div>
+
+            {/* Listado de Equipos */}
+            {showEquipos && equipos.length > 0 && (
+              <div className="mt-6 bg-white rounded-lg shadow-xl p-4 md:p-6 border-4 border-black">
+                <h3 className="text-lg md:text-xl font-bold mb-4 text-black">👥 Listado de Equipos</h3>
+                <div className="space-y-4">
+                  {equipos.map((equipo, idx) => (
+                    <div key={equipo._id} className="border-2 border-gray-200 rounded-lg p-4 hover:border-red-600 transition">
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+                        <div>
+                          <h4 className="text-base md:text-lg font-bold text-black">{equipo.nombre}</h4>
+                          <p className="text-xs md:text-sm text-gray-600">
+                            {equipo.categoriaId?.nombre} • {equipo.dojoId?.nombre}
+                          </p>
+                        </div>
+                        <div className="flex gap-2 flex-wrap">
+                          <span className="bg-blue-100 text-blue-700 px-2 md:px-3 py-1 rounded-full text-xs font-bold">
+                            {equipo.miembros?.length || 0} integrantes
+                          </span>
+                          <span className="bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-full text-xs font-bold">
+                            Equipo #{equipo.numeroEquipo}
+                          </span>
+                          <span className={`px-2 md:px-3 py-1 rounded-full text-xs font-bold ${
+                            equipo.estado === 'activo'
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            {equipo.estado === 'activo' ? '✓ Activo' : '📝 Borrador'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <p className="text-xs font-bold text-gray-600 mb-2">Integrantes:</p>
+                        {equipo.miembros && equipo.miembros.length > 0 ? (
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                            {equipo.miembros.map((miembro, mIdx) => (
+                              <div key={mIdx} className="bg-white rounded px-3 py-2 text-xs md:text-sm border border-gray-200">
+                                <p className="font-semibold text-black">{miembro.nombre}</p>
+                                <p className="text-gray-600">{miembro.edad} años • {miembro.genero}</p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-xs text-gray-500 italic">Sin miembros asignados</p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -1363,6 +1517,7 @@ function App() {
               </h2>
 
               <div className="flex flex-col gap-4">
+                {/* Botón principal */}
                 <div className="flex justify-center">
                   <button
                     onClick={() => openModal('equipo')}
@@ -1371,6 +1526,24 @@ function App() {
                     <Plus className="w-6 h-6 md:w-8 md:h-8" />
                     <span className="hidden sm:inline">⚔️ REGISTRAR NUEVO EQUIPO</span>
                     <span className="sm:hidden">⚔️ NUEVO EQUIPO</span>
+                  </button>
+                </div>
+
+                {/* Botones de exportación */}
+                <div className="flex gap-2 justify-center md:justify-start">
+                  <button
+                    onClick={exportEquiposCSV}
+                    className="bg-white text-black px-4 md:px-5 py-2 rounded-lg font-semibold hover:bg-red-600 hover:text-white transition flex items-center gap-2 border-2 border-black text-sm md:text-base"
+                  >
+                    <FileDown className="w-4 h-4 md:w-5 md:h-5" />
+                    CSV Equipos
+                  </button>
+                  <button
+                    onClick={exportEquiposPDF}
+                    className="bg-white text-black px-4 md:px-5 py-2 rounded-lg font-semibold hover:bg-red-600 hover:text-white transition flex items-center gap-2 border-2 border-black text-sm md:text-base"
+                  >
+                    <Printer className="w-4 h-4 md:w-5 md:h-5" />
+                    PDF Equipos
                   </button>
                 </div>
               </div>
@@ -1443,10 +1616,12 @@ function App() {
                             <>
                               <button
                                 onClick={() => abrirModalAgregarParticipantes(equipo)}
-                                className="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 text-xs font-bold"
+                                className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 text-xs md:text-sm font-bold shadow-md transition-all hover:scale-105 flex items-center gap-1"
                                 title="Agregar/Editar Participantes"
                               >
-                                👥+
+                                <span className="text-base">👥</span>
+                                <span className="hidden sm:inline">Añadir Participantes</span>
+                                <span className="sm:hidden">+</span>
                               </button>
                               <button
                                 onClick={() => openModal('equipo', equipo)}
