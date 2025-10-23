@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Swords, LogOut, X, Search, Filter, FileDown, Printer, Plus, Edit2, Trash2 } from 'lucide-react';
+import { BracketsManager, BracketsView } from './components/brackets';
 
 const API_URL = 'https://copa-samurai-backend.onrender.com/api';
 
@@ -835,6 +836,16 @@ function App() {
             >
               👥 Equipos
             </button>
+            <button
+              onClick={() => { setActiveTab('brackets'); setShowModal(false); }}
+              className={`px-4 md:px-8 py-2 md:py-3 text-sm md:text-base font-bold rounded-lg transition shadow-lg border-2 border-black ${
+                activeTab === 'brackets'
+                  ? 'bg-red-600 text-white scale-105'
+                  : 'bg-white text-black hover:bg-red-600 hover:text-white hover:scale-105'
+              }`}
+            >
+              ⚔️ Brackets
+            </button>
           </div>
         </div>
       </div>
@@ -1608,6 +1619,15 @@ function App() {
               </table>
             </div>
           </div>
+        )}
+
+        {/* BRACKETS TAB */}
+        {activeTab === 'brackets' && (
+          user?.rol === 'admin' ? (
+            <BracketsManager user={{ ...user, token }} />
+          ) : (
+            <BracketsView user={{ ...user, token }} />
+          )
         )}
 
       </div>
