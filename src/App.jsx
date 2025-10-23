@@ -28,7 +28,6 @@ function App() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [showNames, setShowNames] = useState(false);
-  const [showEquipos, setShowEquipos] = useState(false);
   const [participantesDisponibles, setParticipantesDisponibles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showAgregarParticipantesModal, setShowAgregarParticipantesModal] = useState(false);
@@ -414,50 +413,6 @@ function App() {
       } else {
         const data = await res.json();
         alert(data.error || 'Error al eliminar');
-      }
-    } catch (error) {
-      alert('Error de conexión');
-    }
-  };
-
-  const handleActivarEquipo = async (equipoId) => {
-    if (!confirm('¿Activar este equipo? Deberá tener el mínimo de miembros requerido.')) return;
-
-    try {
-      const res = await fetch(`${API_URL}/equipos/${equipoId}/activar`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert('Equipo activado correctamente');
-        loadData();
-      } else {
-        alert(data.error || 'Error al activar equipo');
-      }
-    } catch (error) {
-      alert('Error de conexión');
-    }
-  };
-
-  const handleDesactivarEquipo = async (equipoId) => {
-    if (!confirm('¿Volver este equipo a borrador? Podrás editarlo y activarlo nuevamente.')) return;
-
-    try {
-      const res = await fetch(`${API_URL}/equipos/${equipoId}/desactivar`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert('Equipo devuelto a borrador');
-        loadData();
-      } else {
-        alert(data.error || 'Error al desactivar equipo');
       }
     } catch (error) {
       alert('Error de conexión');
@@ -1146,8 +1101,8 @@ function App() {
               📊 Estadísticas por Modalidad
             </h2>
 
-            {/* Checkboxes para mostrar detalles */}
-            <div className="bg-white rounded-lg shadow-lg p-4 mb-6 border-4 border-black space-y-3">
+            {/* Checkbox para mostrar detalles */}
+            <div className="bg-white rounded-lg shadow-lg p-4 mb-6 border-4 border-black">
               <label className="flex items-center gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -1156,19 +1111,7 @@ function App() {
                   className="w-5 h-5 text-red-600 rounded border-2 border-black focus:ring-4 focus:ring-red-200"
                 />
                 <span className="text-sm md:text-base font-bold text-black">
-                  👤 Mostrar nombres de participantes
-                </span>
-              </label>
-
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showEquipos}
-                  onChange={(e) => setShowEquipos(e.target.checked)}
-                  className="w-5 h-5 text-red-600 rounded border-2 border-black focus:ring-4 focus:ring-red-200"
-                />
-                <span className="text-sm md:text-base font-bold text-black">
-                  👥 Mostrar listado de equipos y sus participantes
+                  👤 Mostrar nombres de participantes en modalidades
                 </span>
               </label>
             </div>
@@ -1278,54 +1221,72 @@ function App() {
               </div>
             </div>
 
-            {/* Listado de Equipos */}
-            {showEquipos && equipos.length > 0 && (
+            {/* Listado de Equipos - Siempre visible */}
+            {equipos.length > 0 && (
               <div className="mt-6 bg-white rounded-lg shadow-xl p-4 md:p-6 border-4 border-black">
-                <h3 className="text-lg md:text-xl font-bold mb-4 text-black">👥 Listado de Equipos</h3>
+                <h3 className="text-lg md:text-xl font-bold mb-4 text-black">👥 Listado de Equipos por Categoría</h3>
                 <div className="space-y-4">
-                  {equipos.map((equipo, idx) => (
-                    <div key={equipo._id} className="border-2 border-gray-200 rounded-lg p-4 hover:border-red-600 transition">
-                      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
-                        <div>
-                          <h4 className="text-base md:text-lg font-bold text-black">{equipo.nombre}</h4>
-                          <p className="text-xs md:text-sm text-gray-600">
-                            {equipo.categoriaId?.nombre} • {equipo.dojoId?.nombre}
-                          </p>
-                        </div>
-                        <div className="flex gap-2 flex-wrap">
-                          <span className="bg-blue-100 text-blue-700 px-2 md:px-3 py-1 rounded-full text-xs font-bold">
-                            {equipo.miembros?.length || 0} integrantes
-                          </span>
-                          <span className="bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-full text-xs font-bold">
-                            Equipo #{equipo.numeroEquipo}
-                          </span>
-                          <span className={`px-2 md:px-3 py-1 rounded-full text-xs font-bold ${
-                            equipo.estado === 'activo'
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-gray-100 text-gray-600'
-                          }`}>
-                            {equipo.estado === 'activo' ? '✓ Activo' : '📝 Borrador'}
-                          </span>
-                        </div>
-                      </div>
+                  {equipos.map((equipo, idx) => {
+                    // Determinar color según disciplina (Kata = azul, Kumite = naranja)
+                    const isKata = equipo.categoriaId?.disciplinaId?.nombre?.toLowerCase().includes('kata');
+                    const borderColor = isKata ? 'border-blue-400' : 'border-orange-400';
+                    const bgHeaderColor = isKata ? 'bg-blue-50' : 'bg-orange-50';
+                    const textHeaderColor = isKata ? 'text-blue-900' : 'text-orange-900';
+                    const badgeBgColor = isKata ? 'bg-blue-100' : 'bg-orange-100';
+                    const badgeTextColor = isKata ? 'text-blue-700' : 'text-orange-700';
 
-                      <div className="bg-gray-50 rounded-lg p-3">
-                        <p className="text-xs font-bold text-gray-600 mb-2">Integrantes:</p>
-                        {equipo.miembros && equipo.miembros.length > 0 ? (
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                            {equipo.miembros.map((miembro, mIdx) => (
-                              <div key={mIdx} className="bg-white rounded px-3 py-2 text-xs md:text-sm border border-gray-200">
-                                <p className="font-semibold text-black">{miembro.nombre}</p>
-                                <p className="text-gray-600">{miembro.edad} años • {miembro.genero}</p>
-                              </div>
-                            ))}
+                    return (
+                      <div key={equipo._id} className={`border-2 ${borderColor} rounded-lg overflow-hidden shadow-md hover:shadow-lg transition`}>
+                        <div className={`${bgHeaderColor} px-4 py-3 border-b-2 ${borderColor}`}>
+                          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+                            <div>
+                              <h4 className={`text-base md:text-lg font-bold ${textHeaderColor}`}>{equipo.nombre}</h4>
+                              <p className="text-xs md:text-sm text-gray-700">
+                                {equipo.categoriaId?.nombre} • {equipo.dojoId?.nombre}
+                              </p>
+                            </div>
+                            <div className="flex gap-2 flex-wrap">
+                              <span className={`${badgeBgColor} ${badgeTextColor} px-2 md:px-3 py-1 rounded-full text-xs font-bold`}>
+                                {equipo.categoriaId?.rangoEdadId?.nombre || 'Sin rango'}
+                              </span>
+                              <span className="bg-purple-100 text-purple-700 px-2 md:px-3 py-1 rounded-full text-xs font-bold">
+                                {equipo.miembros?.length || 0} integrantes
+                              </span>
+                              <span className="bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-full text-xs font-bold">
+                                #{equipo.numeroEquipo}
+                              </span>
+                              <span className={`px-2 md:px-3 py-1 rounded-full text-xs font-bold ${
+                                equipo.estado === 'activo'
+                                  ? 'bg-green-100 text-green-700'
+                                  : 'bg-yellow-100 text-yellow-700'
+                              }`}>
+                                {equipo.estado === 'activo' ? '✓ Activo' : '⏳ Borrador'}
+                              </span>
+                            </div>
                           </div>
-                        ) : (
-                          <p className="text-xs text-gray-500 italic">Sin miembros asignados</p>
-                        )}
+                        </div>
+
+                        <div className="p-4 bg-white">
+                          <p className="text-xs font-bold text-gray-600 mb-2">Integrantes:</p>
+                          {equipo.miembros && equipo.miembros.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                              {equipo.miembros.map((miembro, mIdx) => (
+                                <div key={mIdx} className={`rounded px-3 py-2 text-xs md:text-sm border-2 ${borderColor} bg-gray-50`}>
+                                  <p className="font-semibold text-black">{miembro.nombre}</p>
+                                  <p className="text-gray-600">{miembro.edad} años • {miembro.genero}</p>
+                                  <p className="text-gray-500 text-xs">{miembro.grado}</p>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-xs text-gray-500 italic bg-gray-50 p-3 rounded border border-gray-200">
+                              ⚠️ Sin miembros asignados
+                            </p>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -1630,24 +1591,6 @@ function App() {
                               >
                                 <Edit2 className="w-4 h-4 md:w-5 md:h-5" />
                               </button>
-                              {equipo.estado === 'borrador' && (
-                                <button
-                                  onClick={() => handleActivarEquipo(equipo._id)}
-                                  className="text-green-600 hover:text-green-800"
-                                  title="Activar equipo"
-                                >
-                                  ✓
-                                </button>
-                              )}
-                              {equipo.estado === 'activo' && (
-                                <button
-                                  onClick={() => handleDesactivarEquipo(equipo._id)}
-                                  className="text-orange-600 hover:text-orange-800"
-                                  title="Volver a borrador"
-                                >
-                                  ↺
-                                </button>
-                              )}
                               <button
                                 onClick={() => handleDelete('equipo', equipo._id)}
                                 className="text-red-600 hover:text-red-800"
